@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Install Google Analytics extension
+pip install jupyterlab_google_analytics
+mkdir -p /srv/conda/envs/notebook/share/jupyter/lab/settings
+cp project/overrides.json /srv/conda/envs/notebook/share/jupyter/lab/settings/overrides.json
+
+# Install coursier
+curl -Lo coursier https://git.io/coursier-cli
+chmod +x coursier
+
+# Install almond for Scala 2.13
+SCALA_VERSION=2.13.12 ALMOND_VERSION=0.14.0-RC14
+./coursier launch "almond:$ALMOND_VERSION" --scala $SCALA_VERSION -- \
+  --install \
+  --id scala213 \
+  --display-name "Scala (2.13)" \
+  --env "JAVA_OPTS=-XX:MaxRAMPercentage=80.0 --add-opens=java.base/java.nio=ALL-UNNAMED" \
+  --variable-inspector \
+  </dev/null 2>&1 | grep -v '^Download'
+
+# Clean up the directory. Keep only the notebooks and data.
+rm -f coursier
+
+# Set indentation to two spaces
+JUPYTER_CONFIG_DIR=$(jupyter --config-dir)
+# Classic notebook
+mkdir -p $JUPYTER_CONFIG_DIR/nbconfig/
+cat > $JUPYTER_CONFIG_DIR/nbconfig/notebook.json <<- EOF
+{
+  "CodeCell": {
+    "cm_config": {
+      "indentUnit": 2
+    }
+  }
+}
+EOF
+# JupyterLab notebook
+mkdir -p $JUPYTER_CONFIG_DIR/lab/user-settings/@jupyterlab/notebook-extension/
+cat > $JUPYTER_CONFIG_DIR/lab/user-settings/@jupyterlab/notebook-extension/tracker.jupyterlab-settings <<- EOF
+{
+    "codeCellConfig": {
+      "tabSize": 2
+    }
+}
+EOF
+# JupyterLab editor
+mkdir -p $JUPYTER_CONFIG_DIR/lab/user-settings/@jupyterlab/fileeditor-extension/
+cat > $JUPYTER_CONFIG_DIR/lab/user-settings/@jupyterlab/fileeditor-extension/plugin.jupyterlab-settings <<- EOF
+{
+    "editorConfig": {
+      "tabSize": 2,
+    }
+}
+EOF

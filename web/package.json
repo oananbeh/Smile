@@ -1,0 +1,14 @@
+{
+  "name": "smile-web",
+  "version": "1.0.0",
+  "description": "Statistical Machine Intelligence &amp; Learning Engine",
+  "scripts": {
+    "serve": "ELEVENTY_ENV=dev npx @11ty/eleventy --serve",
+    "deploy": "npx @11ty/eleventy"
+  },
+  "author": "Haifeng Li",
+  "license": "GPL-3",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

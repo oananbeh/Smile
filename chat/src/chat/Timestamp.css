@@ -1,0 +1,29 @@
+.timestamp-container {
+  display: flex;
+  width: 100%;
+  position: relative;
+  justify-content: end;
+  align-items: center;
+  margin-top: 2px;
+  margin-right: 10px;
+  user-select: none;
+}
+
+.timestamp-content {
+  text-align: right;
+  vertical-align: text-top;
+  font-size: 12px;
+  margin-right: 4px;
+  line-height: auto;
+  color: rgb(75 85 99);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.timestamp-check {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+  color: rgb(75 85 99);
+}
